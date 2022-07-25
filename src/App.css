@@ -1,38 +1,91 @@
-.App {
-  text-align: center;
+canvas {
+  border: 2px solid #31312fa5;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.encabezado {
+    display: block;
+    font-size: 25px;
+    text-align: center;
+    color: #31312fa5;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+.buscador {
+    text-align: left;
+}
+
+.lista {
+    display: inline-block;
+}
+
+.item {
+    display: block;
+    margin: 20px 0px;
+}
+
+.done {
+    display: inline-block;
+}
+
+.texto {
+    display: inline-block;
+    margin-left: 20px;
+}
+
+.close {
+    float: right;
+}
+
+.boton {
+    padding: 6px 6px;
+}
+
+
+.VideoInput {
+    display: inline-block;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #31312fa5;
+    margin: 30px 40px;
   }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+  
+  .VideoInput_input {
+    display: none;
   }
-  to {
-    transform: rotate(360deg);
+  
+  .VideoInput_video {
+    display: inline-block;
+    margin: 0;    
   }
-}
+  
+  .VideoInput_footer {
+    background: #31312fa5;
+    width: 100%;
+    min-height: 40px;
+    line-height: 40px;
+    text-align: center;
+    margin-left: 0px;
+  }
+
+  button {
+    margin: 20px 40px;
+  }
+
+  table {
+    display: inline;
+    width: 800px;
+    height: 200px;
+  }
+    
+  th {
+    background-color: rgb(165, 155, 144);
+    border: solid rgb(55, 53, 51);
+    border-bottom: 2px solid black;
+    padding: 20px 40px;
+  }
+    
+  td {
+    text-align: center;
+    padding: 10px 40px;
+    border: solid rgb(55, 53, 51);
+  }
