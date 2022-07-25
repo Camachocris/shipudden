@@ -2,49 +2,49 @@ import React from "react";
 
 function Canvas() {
 
-    const lienzo = document.querySelector("canvas");
-    const ctx = lienzo.getContext('2d');
+    const canvas = document.querySelector("canvas");
+    const ctx = canvas.getContext('2d');
     const COLOR = "blue";
-    const GROSOR = 2;
-    let xAnterior = 0, yAnterior = 0, xActual = 0, yActual = 0;
-    const obtenerXReal = (clientX) => clientX - lienzo.getBoundingClientRect().left;
-    const obtenerYReal = (clientY) => clientY - lienzo.getBoundingClientRect().top;
+    const THICK = 2;
+    let previousX = 0, previousY = 0, actualX = 0, actualY = 0;
+    const getRealX = (clientX) => clientX - canvas.getBoundingClientRect().left;
+    const getRealY = (clientY) => clientY - canvas.getBoundingClientRect().top;
 
-    let comienzaDibujo = false;
+    let startedDraw = false;
 
-    lienzo.addEventListener("mousedown", evento => {
-        xAnterior = xActual;
-        yAnterior = yActual;
-        xActual = obtenerXReal(evento.clientX);
-        yActual = obtenerYReal(evento.clientY);
+ canvas.addEventListener("mousedown", event => {
+        previousX = actualX;
+        previousY = actualY;
+        actualX = getRealX(event.clientX);
+        actualY = getRealY(event.clientY);
         ctx.beginPath();
         ctx.fillStyle = COLOR;
-        ctx.fillRect(xActual, yActual, GROSOR, GROSOR);
+        ctx.fillRect(actualX, actualY, THICK, THICK);
         ctx.closePath();
 
-        comienzaDibujo = true;
+        startedDraw = true;
     });
 
-    lienzo.addEventListener("mousemove", (evento) => {
-        if(!comienzaDibujo) {
+ canvas.addEventListener("mousemove", (event) => {
+        if(!startedDraw) {
             return;
         }
-        xAnterior = xActual;
-        yAnterior = yActual;
-        xActual = obtenerXReal(evento.clientX);
-        yActual = obtenerYReal(evento.clientY);
+        previousX = actualX;
+        previousY = actualY;
+        actualX = getRealX(event.clientX);
+        actualY = getRealY(event.clientY);
         ctx.beginPath();
-        ctx.moveTo(xAnterior, yAnterior);
-        ctx.lineTo(xActual, yActual);
+        ctx.moveTo(previousX, previousY);
+        ctx.lineTo(actualX, actualY);
         ctx.strokeStyle = COLOR;
-        ctx.lineWidth = GROSOR;
+        ctx.lineWidth = THICK;
         ctx.stroke();
         ctx.closePath();
     });
 
-    ["mouseup", "mouseout"].forEach(nombreDeEvento => {
-        lienzo.addEventListener(nombreDeEvento, () => {
-            comienzaDibujo = false;
+    ["mouseup", "mouseout"].forEach(nombreDeevent => {
+     canvas.addEventListener(nombreDeevent, () => {
+            startedDraw = false;
         });
     });
 
