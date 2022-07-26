@@ -1,55 +1,56 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 function Canvas() {
 
-    const canvas = document.querySelector("canvas");
-    const ctx = canvas.getContext('2d');
-    const COLOR = "blue";
-    const THICK = 2;
-    let previousX = 0, previousY = 0, actualX = 0, actualY = 0;
-    const getRealX = (clientX) => clientX - canvas.getBoundingClientRect().left;
-    const getRealY = (clientY) => clientY - canvas.getBoundingClientRect().top;
+    const canvasRef = useRef(null);
+    const contextRef = useRef(null);
 
-    let startedDraw = false;
+    const [isDrawing, setIsDrawing] = useState(false);
 
- canvas.addEventListener("mousedown", event => {
-        previousX = actualX;
-        previousY = actualY;
-        actualX = getRealX(event.clientX);
-        actualY = getRealY(event.clientY);
-        ctx.beginPath();
-        ctx.fillStyle = COLOR;
-        ctx.fillRect(actualX, actualY, THICK, THICK);
-        ctx.closePath();
+    useEffect(() => {
+        const canvas = canvasRef.current;
+        canvas.width = 400;
+        canvas.height = 400;
 
-        startedDraw = true;
-    });
+        const ctx = canvas.getContext("2d");
+        ctx.lineCap = "round";
+        ctx.strokeStyle = "#e3e33e";
+        ctx.lineWidth = 4;
+        contextRef.current = ctx;
+    }, []);
 
- canvas.addEventListener("mousemove", (event) => {
-        if(!startedDraw) {
+    const startDrawing = ({nativeEvent}) => {
+        const {offsetX, offsetY} = nativeEvent;
+        contextRef.current.beginPath();
+        contextRef.current.moveTo(offsetX, offsetY);
+        contextRef.current.lineTo(offsetX, offsetY);
+        contextRef.current.stroke();
+        setIsDrawing(true);
+        nativeEvent.preventDefault();
+    };
+
+    const draw = ({nativeEvent}) => { 
+        if(!isDrawing) {
             return;
         }
-        previousX = actualX;
-        previousY = actualY;
-        actualX = getRealX(event.clientX);
-        actualY = getRealY(event.clientY);
-        ctx.beginPath();
-        ctx.moveTo(previousX, previousY);
-        ctx.lineTo(actualX, actualY);
-        ctx.strokeStyle = COLOR;
-        ctx.lineWidth = THICK;
-        ctx.stroke();
-        ctx.closePath();
-    });
+        const {offsetX, offsetY} = nativeEvent;
+        contextRef.current.lineTo(offsetX, offsetY);
+        contextRef.current.stroke();
+        nativeEvent.preventDefault();
+    };
 
-    ["mouseup", "mouseout"].forEach(nombreDeevent => {
-     canvas.addEventListener(nombreDeevent, () => {
-            startedDraw = false;
-        });
-    });
+    const stopDrawing = () => {
+        contextRef.current.closePath();
+        setIsDrawing(false);
+    };
 
     return (
-        <canvas id="canvas" height={300} width={400} />
+        <canvas className="canvi"
+        ref={canvasRef}
+        onMouseDown={startDrawing}
+        onMouseMove={draw}
+        onMouseUp={stopDrawing} 
+        />
     )
 }
 

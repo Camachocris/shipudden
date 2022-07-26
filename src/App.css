@@ -1,5 +1,7 @@
 canvas {
   border: 2px solid #31312fa5;
+  height: 300px;
+  width: 300px;
 }
 
 .encabezado {
